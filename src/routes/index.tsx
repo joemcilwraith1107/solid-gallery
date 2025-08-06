@@ -1,30 +1,20 @@
-import { A } from "@solidjs/router";
+import { A, createAsync } from "@solidjs/router";
+import { Show, Suspense } from "solid-js";
+import ImageGrid from "#components/ImageGrid";
+
+import { getAllPhotoData } from "~/lib/photos";
+
+export const route = {
+	preload: () => getAllPhotoData(),
+};
 
 export default function Home() {
+	const photos = createAsync(() => getAllPhotoData());
 	return (
-		<main class="text-center mx-auto text-gray-700 p-4">
-			<h1 class="max-6-xs text-6xl text-sky-700 font-thin uppercase my-16">
-				Hello world!
-			</h1>
-			<p class="mt-8">
-				Visit{" "}
-				<a
-					href="https://solidjs.com"
-					target="_blank"
-					class="text-sky-600 hover:underline"
-					rel="noopener"
-				>
-					solidjs.com
-				</a>{" "}
-				to learn how to build Solid apps.
-			</p>
-			<p class="my-4">
-				<span>Home</span>
-				{" - "}
-				<A href="/about" class="text-sky-600 hover:underline">
-					About Page
-				</A>{" "}
-			</p>
+		<main class="shrink basis-11/12">
+			<Suspense fallback={<div>...Loading</div>}>
+				<ImageGrid images={photos()} />
+			</Suspense>
 		</main>
 	);
 }

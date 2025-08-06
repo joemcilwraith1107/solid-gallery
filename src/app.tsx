@@ -8,10 +8,10 @@ export default function App() {
 	return (
 		<Router
 			root={(props) => (
-				<>
+				<div class="flex h-screen flex-col justify-between">
 					<Suspense>{props.children}</Suspense>
 					<Footer />
-				</>
+				</div>
 			)}
 		>
 			<FileRoutes />
