@@ -14,5 +14,21 @@ export const getAllPhotoData = query(async () => {
 
 	if (!results.ok) throw new Error("Failed to fetch photo data");
 
-	return (await results.json()) as ImagesData[];
+	const data: ImagesData[] = await results.json();
+	return data;
 }, "photos");
+
+export default function getFilterData(images: ImagesData[]) {
+	const array = ["all"];
+	for (const image of images) {
+		const tags = image.tags;
+		if (tags == null) {
+			console.log(`Untagged picture ${image.fileId}`);
+		} else {
+			for (const tag of tags) {
+				array.push(tag);
+			}
+		}
+	}
+	return [...new Set(array)];
+}
