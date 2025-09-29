@@ -13,7 +13,7 @@ export default function ImageGrid({ imagesData }: Props) {
 				<For each={imagesData()}>
 					{(image) => (
 						<div class="relative aspect-square w-full overflow-hidden rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-							<A href={`/image/${image.fileId}`}>
+							<A href={`/images/${image.fileId}`}>
 								<img
 									src={`${image.url}&tr=w-400,h-400`}
 									alt={image.customMetadata.Caption}

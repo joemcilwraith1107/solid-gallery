@@ -1,5 +1,5 @@
 import { query } from "@solidjs/router";
-import type { ImagesData } from "#types";
+import type { ImagesData, PhotoData } from "#types";
 
 export const getAllPhotoData = query(async () => {
 	"use server";
@@ -17,6 +17,18 @@ export const getAllPhotoData = query(async () => {
 	const data: ImagesData[] = await results.json();
 	return data;
 }, "photos");
+
+export const getPhotoData = query(async (id: string): Promise<PhotoData> => {
+	"use server";
+	const result = await fetch(`${process.env.IK_API}/${id}/details`, {
+		headers: {
+			Authorization: `${process.env.PRIVATE_HEADER}`,
+		},
+	});
+	if (!result.ok) throw new Error(`Failed to fetch photo data for image ${id}`);
+
+	return result.json();
+}, "photo");
 
 export default function getFilterData(images: ImagesData[]) {
 	const array = ["all"];
